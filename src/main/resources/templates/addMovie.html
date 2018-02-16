@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:padding="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <title>New Movie</title>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">
+            <img src="img/psclogo.png" width="30" height="30" class="d-inline-block align-top" alt=""/>
+            Library</a>
+    </nav>
+</header>
+<big> </big>
+
+<div class="w-25 p3">
+    <form class="movieFormData">
+        <div class="form-group row">
+            <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-10">
+                <input type="text" name="title" class="form-control" required="true" id="inputTitle"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputCountry" class="col-sm-2 col-form-label">Country</label>
+            <div class="col-sm-10">
+                <input type="text" name="country" class="form-control" required="true" id="inputCountry"/>
+            </div>
+        </div>
+        '
+        <div class="form-group row">
+            <label for="selectYear" class="col-sm-2 col-form-label">Year</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="year" id="selectYear" size="small">
+                    <option th:each="i : ${#numbers.sequence( 1900,2018)}" th:value="${i}" th:text="${i}"></option>
+                </select>
+            </div>
+        </div>
+        <div class=" form-group row
+                    ">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary" value="add">Sign in</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

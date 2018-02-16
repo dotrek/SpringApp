@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Movie List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">
+        <img th:src="@{/img/psclogo.png}" width="30" height="30" class="d-inline-block align-top" alt=""/>
+        Library</a>
+
+    <span sec:authorize="isAuthenticated()">
+            <button th:action="@{/logout}" method="post" class="btn btn-secondary">Sign Out</button>
+        </span>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+
+        <a href="/add" class="btn btn-success">Add Movie</a>
+        <a href="/xml_view" class="btn btn-primary mr-auto">Show xml</a>
+    </div>
+</nav>
+<table id="moviesTable" class="table table-striped mx-auto table-dark">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Country</th>
+        <th scope="col">Year</th>
+        <th scope="col">State</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movie: ${movieList}">
+        <td th:text="${movie.getId()}">id</td>
+        <td th:text="${movie.getTitle()}">title</td>
+        <td th:text="${movie.getCountry()}">country</td>
+        <td th:text="${movie.getYear()}">year</td>
+        <td th:text="${movie.getState()}">state</td>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <td>
+                <a th:href="@{/delete_movie(movieId=${movie.id})}"><i class="material-icons">delete_forever</i></a>
+            </td>
+        </div>
+        <div sec:authorize="hasRole('ROLE_USER')">
+
+            <div th:if="${movie.isAvailable()}">
+                <td>
+                    <button onclick="${movie.setState('AVAILABLE')}" class="material-icons">check_circle</button>
+                </td>
+            </div>
+        </div>
+    </tr>
+
+    </tbody>
+</table>
+</body>
+</html>
