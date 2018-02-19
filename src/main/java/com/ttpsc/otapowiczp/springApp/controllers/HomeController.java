@@ -1,7 +1,6 @@
 package com.ttpsc.otapowiczp.springApp.controllers;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 import com.ttpsc.otapowiczp.springApp.converters.YearConverter;
 import com.ttpsc.otapowiczp.springApp.models.Library;
 import com.ttpsc.otapowiczp.springApp.models.Movie;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class MyController {
-    private static final Logger logger = LogManager.getLogger(MyController.class);
+public class HomeController {
+    private static final Logger logger = LogManager.getLogger(HomeController.class);
 
     @RequestMapping("/")
     public String getData(Model model) {
@@ -24,8 +23,6 @@ public class MyController {
         logger.error("home site launched");
         return "home";
     }
-
-
 
 
     @ModelAttribute("movieList")
@@ -48,6 +45,17 @@ public class MyController {
     public String handleDeleteUser(@RequestParam(name = "movieId") int movieId) {
         logger.error(movieId + "\t" + "deleted");
         movieList().removeIf(x -> x.getId() == movieId);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/change_state", method = RequestMethod.GET)
+    public String handleStateChange(@RequestParam(name = "movieId") int movieId) {
+        logger.error(movieId + "\t" + "state changed");
+        movieList().stream()
+                   .filter(movie -> movie.getId() == movieId)
+                   .findFirst()
+                   .get()
+                   .changeState();
         return "redirect:/";
     }
 

@@ -16,7 +16,9 @@
         Library</a>
 
     <span sec:authorize="isAuthenticated()">
-            <button th:action="@{/logout}" method="post" class="btn btn-secondary">Sign Out</button>
+            <form th:action="@{/logout}" method="post">
+            <input type="submit" class="btn btn-secondary" value="Sign Out"/>
+        </form>
         </span>
     <div sec:authorize="hasRole('ROLE_ADMIN')">
 
@@ -41,19 +43,32 @@
         <td th:text="${movie.getCountry()}">country</td>
         <td th:text="${movie.getYear()}">year</td>
         <td th:text="${movie.getState()}">state</td>
+        <div th:switch="${movie.isAvailable()}">
+            <div th:case="true">
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <td>
+                        <a th:href="@{/change_state(movieId=${movie.id})}"><i
+                                class="material-icons">check_circle</i></a>
+                    </td>
+                </div>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td></td>
+                </div>
+            </div>
+            <div th:case="false" sec:authorize="hasRole('ROLE_ADMIN')">
+                <td>
+                    <a th:href="@{/change_state(movieId=${movie.id})}"><i
+                            class="material-icons">assignment_return</i></a>
+                </td>
+            </div>
+        </div>
+
         <div sec:authorize="hasRole('ROLE_ADMIN')">
             <td>
                 <a th:href="@{/delete_movie(movieId=${movie.id})}"><i class="material-icons">delete_forever</i></a>
             </td>
         </div>
-        <div sec:authorize="hasRole('ROLE_USER')">
 
-            <div th:if="${movie.isAvailable()}">
-                <td>
-                    <button onclick="${movie.setState('AVAILABLE')}" class="material-icons">check_circle</button>
-                </td>
-            </div>
-        </div>
     </tr>
 
     </tbody>

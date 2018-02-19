@@ -71,9 +71,10 @@ public class Movie {
         this.year = LocalDate.ofYearDay(year, 1);
     }
 
-    public void setState(String state) {
-        if (state.equals("AVAILABLE"))
+    public void changeState() {
+        if (this.state == MovieState.UNAVAILABLE)
             this.state = MovieState.AVAILABLE;
+        else this.state = MovieState.UNAVAILABLE;
     }
 
     public String toString() {
