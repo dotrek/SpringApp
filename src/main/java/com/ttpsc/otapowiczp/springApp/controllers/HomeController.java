@@ -59,19 +59,5 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/xml_view", method = RequestMethod.GET)
-    public String showXml(Model model) {
-        model.addAttribute("xml_string", configureXstream().toXML(Library.getInstance()));
-        logger.info("attempt to parse to xml");
-        return "xml_view";
-    }
 
-    private static XStream configureXstream() {
-        XStream xStream = new XStream();
-        xStream.processAnnotations(new Class[]{Movie.class, Library.class});
-        XStream.setupDefaultSecurity(xStream);
-        xStream.registerConverter(new YearConverter());
-        logger.trace("xStream configured");
-        return xStream;
-    }
 }
